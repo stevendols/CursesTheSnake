@@ -1,30 +1,49 @@
 #include <curses.h>
+#include <iostream>
+using namespace std;
 
 int main()
 {
 	int maxX, maxY;
+
+	//set up PDCurses
 	initscr();
+
+	//don't let user type to screen
 	noecho();
+
+	//don't show a cursor
 	curs_set(false);
 
+	//find screen dimensions
 	getmaxyx(stdscr, maxY, maxX);
 
-	WINDOW* win1 = newwin(maxY, maxX, 0, 0);
-	WINDOW* win2 = newwin(maxY, maxX, 0, 0);
+	//enable color
 	start_color();
-	init_pair(1, COLOR_WHITE, COLOR_BLUE);
-	wbkgd(win1, COLOR_PAIR(1));
-	wprintw(win1, "TEST");
+
+	//Create Menu
+	WINDOW* menu = newwin(maxY, maxX, 0, 0);
+	constexpr auto DARKGREEN = 10;
+	init_color(DARKGREEN, 0, 100, 0);
+	init_pair(1, COLOR_WHITE, DARKGREEN);
+
+	wbkgd(menu, COLOR_PAIR(1));
+	wborder(menu, '|', '|', '-', '-', '+', '+', '+', '+');
+	wattron(menu, A_UNDERLINE);
+	mvwprintw(menu, 4, 54, "MAIN MENU");
+	wattroff(menu, A_UNDERLINE);
+	mvwprintw(menu, 7, 53, "P => Play!");
+	mvwprintw(menu, 9, 48, "H => View High Score!");
+	mvwprintw(menu, 11, 49, "T => View Best Time!");
+	mvwprintw(menu, 13, 53, "Q => Quit :(");
+	mvwprintw(menu, 18, 50, "Select An Option! ");
+	wmove(menu, 18, 70);
+	curs_set(true);
+	echo();
+	wrefresh(menu);
+
 	
-	init_pair(2, COLOR_BLACK, COLOR_RED);
-	wbkgd(win2, COLOR_PAIR(2));
-	wprintw(win2, "TEST 2");
-
-	wrefresh(win1);
-	wgetch(win1);
-	wrefresh(win2);
-	wgetch(win2);
-
+	wgetch(menu);
 	endwin();
 	return 0;
 }
