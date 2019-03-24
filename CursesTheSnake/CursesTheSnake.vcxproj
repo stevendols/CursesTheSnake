@@ -144,9 +144,11 @@
   <ItemGroup>
     <ClCompile Include="CursesManager.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CursesManager.h" />
+    <ClInclude Include="StateMachine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
