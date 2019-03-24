@@ -1,28 +1,18 @@
 #include <curses.h>
+#include "CursesManager.h"
 #include <iostream>
 using namespace std;
 
 int main()
 {
-	int maxX, maxY;
+	CursesManager curses;
 
-	//set up PDCurses
-	initscr();
+	curses.init();
 
-	//don't let user type to screen
-	noecho();
-
-	//don't show a cursor
-	curs_set(false);
-
-	//find screen dimensions
-	getmaxyx(stdscr, maxY, maxX);
-
-	//enable color
-	start_color();
+	
 
 	//Create Menu
-	WINDOW* menu = newwin(maxY, maxX, 0, 0);
+	WINDOW* menu = newwin(curses.getMaxY(), curses.getMaxX(), 0, 0);
 
 	//create darkgreen color as color #10
 	constexpr auto DARKGREEN = 10;
