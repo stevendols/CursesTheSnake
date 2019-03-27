@@ -1,4 +1,5 @@
 #pragma once
+#include "curses.h"
 class StateMachine
 {
 public:
@@ -15,6 +16,7 @@ public:
 	~StateMachine();
 
 	void updateState(States newState);
+	void SetUpMenu(WINDOW * win);
 
 private:
 	States currentState;

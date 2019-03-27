@@ -1,5 +1,7 @@
 #include <curses.h>
 #include "CursesManager.h"
+#include "StateMachine.h"
+#include "Snake.h"
 #include <iostream>
 using namespace std;
 
@@ -9,10 +11,17 @@ int main()
 
 	curses.init();
 
+	//create the state machine
+	StateMachine sm;
+
+
 	
 
-	//Create Menu
+	//Create Menu and play windows
 	WINDOW* menu = newwin(curses.getMaxY(), curses.getMaxX(), 0, 0);
+	
+	//create snake
+	Snake snake(play);
 
 	//create darkgreen color as color #10
 	constexpr auto DARKGREEN = 10;
@@ -51,10 +60,71 @@ int main()
 	//refresh so changes appear
 	wrefresh(menu);
 
-	//listen for a key on the given window
-	wgetch(menu);
+	//
+	
 
+	//listen for a key on the given window
+	int key = 0;
+	int y, x;
+	bool cont = true;
+
+	while (cont)
+	{
+		wrefresh(menu);
+		key = wgetch(menu);
+		
+		//update the state manager or reset the prompt based on input
+		switch (key)
+		{
+			case (int)'P':
+			{
+				sm.updateState(sm.PLAY);
+				WINDOW * thisplay = newwin(0, 0, 0, 0);
+				Snake stemp(thisplay);
+				stemp.Start();
+				delwin(thisplay);
+				sm.SetUpMenu(menu);
+				break;
+			}
+			case (int)'p': 
+			{
+				sm.updateState(sm.PLAY);
+				WINDOW * thisplay = newwin(0, 0, 0, 0);
+				Snake stemp(thisplay);
+				stemp.Start();
+				delwin(thisplay);
+				sm.SetUpMenu(menu);
+				break; 
+			}
+			case (int)'H': sm.updateState(sm.HIGHSCORE);
+				break;
+			case (int)'h': sm.updateState(sm.HIGHSCORE);
+				break;
+			case (int)'T': sm.updateState(sm.BESTTIME);
+				break;
+			case (int)'t': sm.updateState(sm.BESTTIME);
+				break;
+			case (int)'Q': cont = false;
+				break;
+			case (int)'q': cont = false;
+				break;
+			default: 
+			{
+				wmove(menu, 18, 40);
+				wclrtobot(menu);
+				mvwprintw(menu, 18, 40, "Not an Option, Select a New Option! ");
+				wrefresh(menu);
+			}
+
+			
+		}
+
+		key = 0;
+	}
+	
+	
 	//end program
 	endwin();
 	return 0;
+	
 }

@@ -70,20 +70,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\PDCurses-3.8;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\PDCurses-3.8\wincon;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Bryan\Desktop\PDCurses-3.8;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Bryan\Desktop\PDCurses-3.8\wincon;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\PDCurses-3.8;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\PDCurses-3.8\wincon;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Bryan\Desktop\PDCurses-3.8;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Bryan\Desktop\PDCurses-3.8\wincon;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\PDCurses-3.8;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\PDCurses-3.8\wincon;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Bryan\Desktop\PDCurses-3.8;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Bryan\Desktop\PDCurses-3.8\wincon;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\PDCurses-3.8;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\PDCurses-3.8\wincon;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Bryan\Desktop\PDCurses-3.8;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Bryan\Desktop\PDCurses-3.8\wincon;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -143,11 +143,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CursesManager.cpp" />
+    <ClCompile Include="Snake.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CursesManager.h" />
+    <ClInclude Include="Snake.h" />
     <ClInclude Include="StateMachine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
