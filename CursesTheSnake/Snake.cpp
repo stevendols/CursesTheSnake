@@ -1,9 +1,9 @@
 #include "snake.h"
 #include <string>
 
-Snake::Snake(WINDOW * win)
+Snake::Snake(WINDOW * p)
 {
-	play = win;
+	play = p;
 	//create a border (left, right, top, bottom, four corners
 	wborder(play, '|', '|', '-', '-', '+', '+', '+', '+');
 	currentDir = UP;
@@ -104,10 +104,9 @@ void Snake::AddBody(int y, int x)
 void Snake::Start()
 {
 	//curs_set(0); This causes errors when moving left, but should hide the cursor
+	currentDir = UP;
 	cbreak();
 	noecho();
-
-	currentDir = UP;
 
 	SetFruit();
 
@@ -151,8 +150,7 @@ void Snake::Start()
 
 		Move();
 
-		//check bounds
-		//if (body.)
+		
 		
 		wrefresh(play);
 
@@ -164,11 +162,11 @@ void Snake::Start()
 	} while (key != 2 && currentDir != STOP);
 
 	wclear(play);
-	wrefresh(play);
-	/*nodelay(play, false);
-	curs_set(1);
-	nocbreak();
-	echo();*/
+	//wrefresh(play);
+	//nodelay(play, false);
+	///curs_set(1);
+	//nocbreak();
+	//echo();
 }
 
 void Snake::SetFruit()

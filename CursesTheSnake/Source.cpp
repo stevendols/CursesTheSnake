@@ -8,20 +8,15 @@ using namespace std;
 int main()
 {
 	CursesManager curses;
+	
 
 	curses.init();
 
+	WINDOW * menu = newwin(curses.getMaxY(), curses.getMaxX(), 0, 0);
+
 	//create the state machine
 	StateMachine sm;
-
-
 	
-
-	//Create Menu and play windows
-	WINDOW* menu = newwin(curses.getMaxY(), curses.getMaxX(), 0, 0);
-	
-	//create snake
-	Snake snake(play);
 
 	//create darkgreen color as color #10
 	constexpr auto DARKGREEN = 10;
@@ -79,16 +74,19 @@ int main()
 			case (int)'P':
 			{
 				sm.updateState(sm.PLAY);
-				WINDOW * thisplay = newwin(0, 0, 0, 0);
-				Snake stemp(thisplay);
+				
+				Snake stemp(menu);
 				stemp.Start();
-				delwin(thisplay);
+				
 				sm.SetUpMenu(menu);
 				break;
 			}
 			case (int)'p': 
 			{
 				sm.updateState(sm.PLAY);
+				
+				
+
 				WINDOW * thisplay = newwin(0, 0, 0, 0);
 				Snake stemp(thisplay);
 				stemp.Start();

@@ -19,7 +19,7 @@ public:
 		STOP
 	};
 
-	Snake(WINDOW * win);
+	Snake(WINDOW * p);
 	
 	list<pair<int, int>> GetSnake();
 	void AddBody(int y, int x);
