@@ -1,5 +1,6 @@
 #include "StateMachine.h"
 
+
 StateMachine::StateMachine()
 {
 	updateState(MAINMENU);
