@@ -17,7 +17,7 @@ int main()
 	//create the state machine
 	StateMachine sm;
 	
-
+	init_color(COLOR_WHITE, 1000, 1000, 1000);
 	//create darkgreen color as color #10
 	constexpr auto DARKGREEN = 10;
 	init_color(DARKGREEN, 0, 100, 0);
@@ -74,10 +74,14 @@ int main()
 			case (int)'P':
 			{
 				sm.updateState(sm.PLAY);
+
+
 				
-				Snake stemp(menu);
+				WINDOW * thisplay = newwin(0, (int)COLS*.7, 0, 0);
+				WINDOW * scoreside = newwin(0, (int)COLS*.3, 0, (int)COLS*.7);
+				Snake stemp(thisplay, scoreside);
 				stemp.Start();
-				
+				delwin(thisplay);
 				sm.SetUpMenu(menu);
 				break;
 			}
@@ -86,9 +90,10 @@ int main()
 				sm.updateState(sm.PLAY);
 				
 				
+				WINDOW * thisplay = newwin(0, (int)COLS*.7, 0, 0);
 
-				WINDOW * thisplay = newwin(0, 0, 0, 0);
-				Snake stemp(thisplay);
+				WINDOW * scoreside = newwin(0, (int)COLS*.3, 0, (int)COLS*.7);
+				Snake stemp(thisplay, scoreside);
 				stemp.Start();
 				delwin(thisplay);
 				sm.SetUpMenu(menu);

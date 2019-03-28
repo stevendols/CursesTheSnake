@@ -19,7 +19,7 @@ public:
 		STOP
 	};
 
-	Snake(WINDOW * p);
+	Snake(WINDOW * p, WINDOW * h);
 	
 	list<pair<int, int>> GetSnake();
 	void AddBody(int y, int x);
@@ -27,11 +27,11 @@ public:
 	void Move();
 	void Start();
 	void SetFruit();
-
 private:
 	int speed;
 	list < pair<int, int>> body;
 	WINDOW * play;
+	WINDOW * swin;
 	Direction currentDir;	
 	pair<int, int> fruit;
 	int score;

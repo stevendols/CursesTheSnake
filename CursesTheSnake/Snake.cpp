@@ -1,14 +1,34 @@
 #include "snake.h"
 #include <string>
+#include <string>
 
-Snake::Snake(WINDOW * p)
+# define SNAKECOL 2
+# define APPLECOL 3
+# define BACKCOL 4
+
+Snake::Snake(WINDOW * p, WINDOW * scoreside)
 {
 	play = p;
-	//create a border (left, right, top, bottom, four corners
-	wborder(play, '|', '|', '-', '-', '+', '+', '+', '+');
+	swin = scoreside;
+	
 	currentDir = UP;
 	speed = 80;
 	score = 0;
+
+	if (can_change_color()) {
+		//set colors
+		
+		
+		
+		init_pair(APPLECOL, 14, COLOR_BLUE);
+		init_pair(BACKCOL, COLOR_WHITE, COLOR_BLUE);
+		wbkgd(play, COLOR_PAIR(BACKCOL));
+	}
+
+	//create a border (left, right, top, bottom, four corners
+	wborder(play, '|', '|', '-', '-', '+', '+', '+', '+');
+
+	wborder(swin, '|', '|', '-', '-', '+', '+', '+', '+');
 }
 
 //return a vector of y,x positions for the snake's body
@@ -17,6 +37,7 @@ list<pair<int, int>> Snake::GetSnake()
 	return body;
 }
 
+//move the player
 void Snake::Move()
 {
 	cout << "move";
@@ -53,8 +74,8 @@ void Snake::Move()
 	}
 	else
 	{
-		/*score++;
-		const char * stemp = to_string(score).c_str();
+		score++;
+		/*const char * stemp = to_string(score).c_str();
 		mvwprintw(play, 30, 30, stemp);*/
 		//wrefresh(play);
 		SetFruit();
@@ -74,11 +95,21 @@ void Snake::Move()
 		currentDir = STOP;
 	}
 
-	if (x <= 0 || y <= 0 || x >= COLS || y >= LINES)
+	int maxx, maxy;
+	getmaxyx(play, maxy, maxx);
+
+	if (x <= 0 || y <= 0 || x >= maxx || y >= maxy)
 	{
 		currentDir = STOP;
 	}
 	Collide();
+
+	getmaxyx(swin, maxy, maxx);
+	int point = 2;
+	string ko = to_string(score);
+	
+	mvwaddstr(swin, 3, 3, ko.c_str());
+	wrefresh(swin);
 }
 
 //Check if snake hit itself
@@ -193,7 +224,9 @@ void Snake::SetFruit()
 	} while (cont || xloc == 0 || yloc == 0);
 
 	fruit = pair<int, int>(yloc, xloc);
+	wattron(play, COLOR_PAIR(APPLECOL));
 	mvwaddch(play, yloc, xloc, 'A');
+	wattroff(play, COLOR_PAIR(APPLECOL));
 	//wrefresh(play);
 }
 
