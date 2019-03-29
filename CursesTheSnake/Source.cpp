@@ -94,6 +94,7 @@ int main()
 
 				WINDOW * scoreside = newwin(0, (int)COLS*.3, 0, (int)COLS*.7);
 				Snake stemp(thisplay, scoreside);
+				delwin(menu);
 				stemp.Start();
 				delwin(thisplay);
 				sm.SetUpMenu(menu);
@@ -127,6 +128,7 @@ int main()
 	
 	
 	//end program
+	//start_color();
 	endwin();
 	return 0;
 	

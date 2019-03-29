@@ -1,6 +1,6 @@
 #include "snake.h"
 #include <string>
-#include <string>
+#include<vector>
 
 # define SNAKECOL 2
 # define APPLECOL 3
@@ -17,11 +17,12 @@ Snake::Snake(WINDOW * p, WINDOW * scoreside)
 
 	if (can_change_color()) {
 		//set colors
-		
-		
-		
-		init_pair(APPLECOL, 14, COLOR_BLUE);
-		init_pair(BACKCOL, COLOR_WHITE, COLOR_BLUE);
+		//init_color(COLOR_MAGENTA, 627, 321, 176);
+		//init_color(COLOR_RED, 1000, 0, 0);
+		//init_color(COLOR_MAGENTA, 1000, 411, 705);
+		init_pair(APPLECOL, COLOR_RED, COLOR_WHITE);
+		//init_pair(SNAKECOL, COLOR_)
+		init_pair(BACKCOL, COLOR_BLUE, COLOR_WHITE);
 		wbkgd(play, COLOR_PAIR(BACKCOL));
 	}
 
@@ -81,13 +82,16 @@ void Snake::Move()
 		SetFruit();
 	}
 	
+	
 	bool collide = false;
+	int dumbcount = 0;
 	for (pair<int, int> it : body)
 	{
-		if (y == it.first && x == it.second && it != body.back())
+		if (it == body.back() && dumbcount < body.size()-1)
 		{
 			collide = true;
 		}
+		dumbcount++;
 	}
 	
 	if (collide)
@@ -95,18 +99,22 @@ void Snake::Move()
 		currentDir = STOP;
 	}
 
+	
+
 	int maxx, maxy;
 	getmaxyx(play, maxy, maxx);
 
-	if (x <= 0 || y <= 0 || x >= maxx || y >= maxy)
+	if (x <= 0 || y <= 0 || x >= (maxx-1) || y >= (maxy-1))
 	{
 		currentDir = STOP;
 	}
-	Collide();
+	//Collide();
 
 	getmaxyx(swin, maxy, maxx);
 	int point = 2;
-	string ko = to_string(score);
+	string ko = "Score: ";
+	ko += to_string(score);
+
 	
 	mvwaddstr(swin, 3, 3, ko.c_str());
 	wrefresh(swin);
@@ -143,6 +151,7 @@ void Snake::Start()
 
 	int ysize, xsize;
 	int key = (int)'w';
+	sheight = 6;
 
 	//set cursor in center
 	getmaxyx(play, ysize, xsize);
@@ -175,6 +184,8 @@ void Snake::Start()
 				if (currentDir != UP)
 					currentDir = DOWN;
 				break;
+			case (int)'l':
+				Sleep(10000000000000000000);
 			case 27: currentDir = STOP;
 				break;
 		}
@@ -186,7 +197,7 @@ void Snake::Start()
 		wrefresh(play);
 
 		if (currentDir == RIGHT || currentDir == LEFT)
-			Sleep(speed*speedFactor*1.4);
+			Sleep(speed*.5);//speedFactor*1.4);
 		else
 			Sleep(speed);
 

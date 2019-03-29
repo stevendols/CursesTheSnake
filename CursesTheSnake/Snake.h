@@ -29,6 +29,7 @@ public:
 	void SetFruit();
 private:
 	int speed;
+	int sheight;
 	list < pair<int, int>> body;
 	WINDOW * play;
 	WINDOW * swin;
