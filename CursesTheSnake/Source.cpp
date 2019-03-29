@@ -97,6 +97,7 @@ int main()
 				delwin(menu);
 				stemp.Start();
 				delwin(thisplay);
+				delwin(scoreside);
 				sm.SetUpMenu(menu);
 				break; 
 			}
