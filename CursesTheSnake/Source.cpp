@@ -72,19 +72,6 @@ int main()
 		switch (key)
 		{
 			case (int)'P':
-			{
-				sm.updateState(sm.PLAY);
-
-
-				
-				WINDOW * thisplay = newwin(0, (int)COLS*.7, 0, 0);
-				WINDOW * scoreside = newwin(0, (int)COLS*.3, 0, (int)COLS*.7);
-				Snake stemp(thisplay, scoreside);
-				stemp.Start();
-				delwin(thisplay);
-				sm.SetUpMenu(menu);
-				break;
-			}
 			case (int)'p': 
 			{
 				sm.updateState(sm.PLAY);
@@ -101,17 +88,17 @@ int main()
 				sm.SetUpMenu(menu);
 				break; 
 			}
-			case (int)'H': sm.updateState(sm.HIGHSCORE);
+			case (int)'H': 
+			case (int)'h': 
+				sm.updateState(sm.HIGHSCORE);
 				break;
-			case (int)'h': sm.updateState(sm.HIGHSCORE);
+			case (int)'T':
+			case (int)'t': 
+				sm.updateState(sm.BESTTIME);
 				break;
-			case (int)'T': sm.updateState(sm.BESTTIME);
-				break;
-			case (int)'t': sm.updateState(sm.BESTTIME);
-				break;
-			case (int)'Q': cont = false;
-				break;
-			case (int)'q': cont = false;
+			case (int)'Q':
+			case (int)'q':
+				cont = false;
 				break;
 			default: 
 			{
@@ -129,7 +116,6 @@ int main()
 	
 	
 	//end program
-	//start_color();
 	endwin();
 	return 0;
 	
