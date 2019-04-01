@@ -2,6 +2,7 @@
 #include <string>
 #include<vector>
 
+
 # define SNAKECOL 2
 # define APPLECOL 3
 # define BACKCOL 4
@@ -10,6 +11,8 @@ Snake::Snake(WINDOW * p, WINDOW * scoreside)
 {
 	play = p;
 	swin = scoreside;
+
+	start = std::clock();
 	
 	currentDir = UP;
 	speed = 80;
@@ -115,8 +118,12 @@ void Snake::Move()
 	string ko = "Score: ";
 	ko += to_string(score);
 
+	string time = "Seconds Alive: ";
+	duration = (std::clock() - start) / CLOCKS_PER_SEC;
+	time += to_string(duration);
 	
 	mvwaddstr(swin, 3, 3, ko.c_str());
+	mvwaddstr(swin, 9, 3, time.c_str());
 	wrefresh(swin);
 }
 

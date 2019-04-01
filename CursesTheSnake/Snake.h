@@ -4,6 +4,7 @@
 #include<iterator>
 #include<iostream>
 #include"Windows.h"
+#include <ctime>
 //#include<conio.h>
 using namespace std;
 
@@ -18,6 +19,9 @@ public:
 		RIGHT,
 		STOP
 	};
+
+	std::clock_t start;
+	int duration;
 
 	Snake(WINDOW * p, WINDOW * h);
 	
