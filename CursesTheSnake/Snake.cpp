@@ -28,11 +28,6 @@ Snake::Snake(WINDOW * p, WINDOW * scoreside)
 		init_pair(BACKCOL, COLOR_BLUE, COLOR_WHITE);
 		wbkgd(play, COLOR_PAIR(BACKCOL));
 	}
-
-	//create a border (left, right, top, bottom, four corners
-	wborder(play, '|', '|', '-', '-', '+', '+', '+', '+');
-
-	wborder(swin, '|', '|', '-', '-', '+', '+', '+', '+');
 }
 
 //return a vector of y,x positions for the snake's body
@@ -149,7 +144,7 @@ void Snake::AddBody(int y, int x)
 
 void Snake::Start()
 {
-	//curs_set(0); This causes errors when moving left, but should hide the cursor
+	curs_set(0); //This did cause an error when moving left, but is not now
 	currentDir = UP;
 	cbreak();
 	noecho();
@@ -191,8 +186,6 @@ void Snake::Start()
 				if (currentDir != UP)
 					currentDir = DOWN;
 				break;
-			case (int)'l':
-				Sleep(10000000000000000000);
 			case 27: currentDir = STOP;
 				break;
 		}

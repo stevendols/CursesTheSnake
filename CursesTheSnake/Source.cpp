@@ -52,10 +52,22 @@ int main()
 	curs_set(true);
 	echo();
 
+
+	int winsize = (int)COLS*.7;
+	WINDOW * thisplay = newwin(0, winsize, 0, 0);
+
+	WINDOW * scoreside = newwin(0, COLS - winsize, 0, winsize);
+
+	
+
+	//create a border (left, right, top, bottom, four corners
+	
+
+
 	//refresh so changes appear
 	wrefresh(menu);
 
-	//
+	
 	
 
 	//listen for a key on the given window
@@ -77,29 +89,60 @@ int main()
 				sm.updateState(sm.PLAY);
 				
 				
-				WINDOW * thisplay = newwin(0, (int)COLS*.7, 0, 0);
-
-				WINDOW * scoreside = newwin(0, (int)COLS*.3, 0, (int)COLS*.7);
-				Snake stemp(thisplay, scoreside);
 				delwin(menu);
+				wborder(thisplay, '|', '|', '-', '-', '+', '+', '+', '+');
+
+				wborder(scoreside, '|', '|', '-', '-', '+', '+', '+', '+');
+				Snake stemp(thisplay, scoreside);
+				
 				stemp.Start();
-				delwin(thisplay);
-				delwin(scoreside);
+				//delwin(thisplay);
+				//delwin(scoreside);
 				sm.SetUpMenu(menu);
 				break; 
 			}
 			case (int)'H': 
 			case (int)'h': 
+			{
 				sm.updateState(sm.HIGHSCORE);
+
+				int winsize = (int)COLS * .5;
+				delwin(menu);
+
+				WINDOW * score = newwin(0, winsize, 0, 0);
+				WINDOW * time = newwin(0, COLS-winsize, 0, winsize);
+
+				wborder(score, '|', '|', '-', '-', '+', '+', '+', '+');
+				wborder(time, '|', '|', '-', '-', '+', '+', '+', '+');
+				noecho();
+
+				//DISPLAY HERE
+
+
+				wrefresh(score);
+				wrefresh(time);
+				
+				//Hold here and wait for exit code. The last wrefresh must be time
+				int scorekey = 0;
+				while (scorekey != 27)
+				{
+					scorekey = wgetch(time);
+				}
+
+				//reset the menu
+				delwin(score);
+				delwin(time);
+				sm.SetUpMenu(menu);
+
 				break;
-			case (int)'T':
-			case (int)'t': 
-				sm.updateState(sm.BESTTIME);
-				break;
+			}
 			case (int)'Q':
 			case (int)'q':
+			{
 				cont = false;
+				//delwin(menu);
 				break;
+			}
 			default: 
 			{
 				wmove(menu, 18, 40);
