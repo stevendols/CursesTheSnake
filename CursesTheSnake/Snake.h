@@ -21,7 +21,6 @@ public:
 	};
 
 	std::clock_t start;
-	int duration;
 
 	Snake(WINDOW * p, WINDOW * h);
 	
@@ -31,6 +30,12 @@ public:
 	void Move();
 	void Start();
 	void SetFruit();
+
+	void UpdateHighScore(int scoreIn, int timeIn);
+
+	int getHighScore();
+	int getHighDuration();
+
 private:
 	int speed;
 	int sheight;
@@ -39,5 +44,6 @@ private:
 	WINDOW * swin;
 	Direction currentDir;	
 	pair<int, int> fruit;
-	int score;
+	int score, highScore;
+	int duration, highDuration;
 };

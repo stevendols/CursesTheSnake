@@ -3,6 +3,8 @@
 #include "StateMachine.h"
 #include "Snake.h"
 #include <iostream>
+#include <string>
+#include <fstream>
 using namespace std;
 
 int main()
@@ -72,14 +74,15 @@ int main()
 
 	//listen for a key on the given window
 	int key = 0;
-	int y, x;
+	//int y, x;
 	bool cont = true;
 
 	while (cont)
 	{
 		wrefresh(menu);
 		key = wgetch(menu);
-		
+		static Snake stemp(thisplay, scoreside);
+
 		//update the state manager or reset the prompt based on input
 		switch (key)
 		{
@@ -93,7 +96,7 @@ int main()
 				wborder(thisplay, '|', '|', '-', '-', '+', '+', '+', '+');
 
 				wborder(scoreside, '|', '|', '-', '-', '+', '+', '+', '+');
-				Snake stemp(thisplay, scoreside);
+				
 				
 				stemp.Start();
 				//delwin(thisplay);
@@ -115,9 +118,18 @@ int main()
 				wborder(score, '|', '|', '-', '-', '+', '+', '+', '+');
 				wborder(time, '|', '|', '-', '-', '+', '+', '+', '+');
 				noecho();
+				curs_set(false);
 
 				//DISPLAY HERE
-
+				wattron(score, A_UNDERLINE);
+				mvwprintw(score, 5, 25, "High Score");
+				wattroff(score, A_UNDERLINE);
+				mvwprintw(score, 20, 30, to_string(stemp.getHighScore()).c_str());
+				
+				wattron(time, A_UNDERLINE);
+				mvwprintw(time, 5, 25, "Best Time");
+				wattroff(time, A_UNDERLINE);
+				mvwprintw(time, 20, 30, to_string(stemp.getHighDuration()).c_str());
 
 				wrefresh(score);
 				wrefresh(time);
@@ -139,6 +151,12 @@ int main()
 			case (int)'Q':
 			case (int)'q':
 			{
+				ofstream out;
+				out.open("highscore.txt");
+				out << stemp.getHighScore() << endl;
+				out << stemp.getHighDuration() << endl;
+				out.close();
+
 				cont = false;
 				//delwin(menu);
 				break;

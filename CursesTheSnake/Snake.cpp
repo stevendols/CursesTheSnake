@@ -116,6 +116,8 @@ void Snake::Move()
 	string time = "Seconds Alive: ";
 	duration = (std::clock() - start) / CLOCKS_PER_SEC;
 	time += to_string(duration);
+
+	
 	
 	mvwaddstr(swin, 3, 3, ko.c_str());
 	mvwaddstr(swin, 9, 3, time.c_str());
@@ -192,6 +194,11 @@ void Snake::Start()
 
 		Move();
 
+		if (score > highScore)
+			highScore = score;
+
+		if (duration > highDuration)
+			highDuration = duration;
 		
 		
 		wrefresh(play);
@@ -239,5 +246,21 @@ void Snake::SetFruit()
 	mvwaddch(play, yloc, xloc, 'A');
 	wattroff(play, COLOR_PAIR(APPLECOL));
 	//wrefresh(play);
+}
+
+void Snake::UpdateHighScore(int scoreIn, int timeIn)
+{
+	highScore = scoreIn;
+	highDuration = timeIn;
+}
+
+int Snake::getHighScore()
+{
+	return highScore;
+}
+
+int Snake::getHighDuration()
+{
+	return highDuration;
 }
 
