@@ -43,7 +43,7 @@ int main()
 	//args(window name, y, x, text)
 	mvwprintw(menu, 7, 53, "P => Play!");
 	mvwprintw(menu, 9, 48, "H => View High Score!");
-	mvwprintw(menu, 11, 49, "T => View Best Time!");
+	mvwprintw(menu, 11, 50, "R => Reset Scores!");
 	mvwprintw(menu, 13, 53, "Q => Quit :(");
 	mvwprintw(menu, 18, 50, "Select An Option! ");
 
@@ -69,19 +69,20 @@ int main()
 	//refresh so changes appear
 	wrefresh(menu);
 
-	
-	
+	//to use to check score held in Score.txt
+	fstream file;	
 
 	//listen for a key on the given window
 	int key = 0;
 	//int y, x;
 	bool cont = true;
 
+	Snake * snakePtr = NULL;
+
 	while (cont)
 	{
 		wrefresh(menu);
 		key = wgetch(menu);
-		static Snake stemp(thisplay, scoreside);
 
 		//update the state manager or reset the prompt based on input
 		switch (key)
@@ -91,12 +92,13 @@ int main()
 			{
 				sm.updateState(sm.PLAY);
 				
-				
 				delwin(menu);
+
+				Snake stemp(thisplay, scoreside);
+
 				wborder(thisplay, '|', '|', '-', '-', '+', '+', '+', '+');
 
 				wborder(scoreside, '|', '|', '-', '-', '+', '+', '+', '+');
-				
 				
 				stemp.Start();
 				//delwin(thisplay);
@@ -108,6 +110,18 @@ int main()
 			case (int)'h': 
 			{
 				sm.updateState(sm.HIGHSCORE);
+
+				//get the high score
+				file.open("Score.txt");
+				int highScore;
+				file >> highScore;
+				file.close();
+
+				//get the best time
+				file.open("Time.txt");
+				int highTime;
+				file >> highTime;
+				file.close();
 
 				int winsize = (int)COLS * .5;
 				delwin(menu);
@@ -124,12 +138,12 @@ int main()
 				wattron(score, A_UNDERLINE);
 				mvwprintw(score, 5, 25, "High Score");
 				wattroff(score, A_UNDERLINE);
-				mvwprintw(score, 20, 30, to_string(stemp.getHighScore()).c_str());
+				mvwprintw(score, 20, 30, to_string(highScore).c_str());
 				
 				wattron(time, A_UNDERLINE);
 				mvwprintw(time, 5, 25, "Best Time");
 				wattroff(time, A_UNDERLINE);
-				mvwprintw(time, 20, 30, to_string(stemp.getHighDuration()).c_str());
+				mvwprintw(time, 20, 30, to_string(highTime).c_str());
 
 				wrefresh(score);
 				wrefresh(time);
@@ -145,17 +159,34 @@ int main()
 				delwin(score);
 				delwin(time);
 				sm.SetUpMenu(menu);
+				wrefresh(menu);
+
+				break;
+			}
+			case (int) 'R':
+			case (int) 'r':
+			{
+				//reset score
+				file.open("Score.txt");
+				file << 0;
+				file.close();
+
+				//reset time
+				file.open("Time.txt");
+				file << 0;
+				file.close();
 
 				break;
 			}
 			case (int)'Q':
 			case (int)'q':
 			{
+				/*
 				ofstream out;
 				out.open("highscore.txt");
 				out << stemp.getHighScore() << endl;
 				out << stemp.getHighDuration() << endl;
-				out.close();
+				out.close();*/
 
 				cont = false;
 				//delwin(menu);

@@ -28,6 +28,7 @@ Snake::Snake(WINDOW * p, WINDOW * scoreside)
 		init_pair(BACKCOL, COLOR_BLUE, COLOR_WHITE);
 		wbkgd(play, COLOR_PAIR(BACKCOL));
 	}
+
 }
 
 //return a vector of y,x positions for the snake's body
@@ -74,6 +75,7 @@ void Snake::Move()
 	else
 	{
 		score++;
+		CheckScoreChange();
 		/*const char * stemp = to_string(score).c_str();
 		mvwprintw(play, 30, 30, stemp);*/
 		//wrefresh(play);
@@ -117,7 +119,7 @@ void Snake::Move()
 	duration = (std::clock() - start) / CLOCKS_PER_SEC;
 	time += to_string(duration);
 
-	
+	CheckTimeChange();
 	
 	mvwaddstr(swin, 3, 3, ko.c_str());
 	mvwaddstr(swin, 9, 3, time.c_str());
@@ -194,9 +196,6 @@ void Snake::Start()
 
 		Move();
 
-		if (score > highScore)
-			highScore = score;
-
 		if (duration > highDuration)
 			highDuration = duration;
 		
@@ -252,6 +251,10 @@ void Snake::UpdateHighScore(int scoreIn, int timeIn)
 {
 	highScore = scoreIn;
 	highDuration = timeIn;
+
+	file.open("Score.txt");
+	file << scoreIn;
+	file.close();
 }
 
 int Snake::getHighScore()
@@ -264,3 +267,55 @@ int Snake::getHighDuration()
 	return highDuration;
 }
 
+//return the high score stored in the file
+int Snake::GetLastHighScore()
+{
+	//open the file with the score
+	file.open("Score.txt");
+	int currentHigh;
+	//string tempScore;
+	file >> currentHigh;
+
+	//use stringstream to convert the string ot an integer
+	//stringstream tscore(tempScore);
+	file.close();
+	return currentHigh;
+}
+
+//check if the current score is better than the score in the file. If it is, change the file
+void Snake::CheckScoreChange()
+{
+	int currentScore = GetLastHighScore();
+	if (score > currentScore)
+	{
+		file.open("Score.txt");
+		file << score;
+		file.close();
+	}
+}
+
+int Snake::GetLastHighTime()
+{
+	//open the file with the time
+	file.open("Time.txt");
+	int currTime;
+	//string tempScore;
+	file >> currTime;
+
+	//use stringstream to convert the string ot an integer
+	//stringstream tscore(tempScore);
+	file.close();
+	return currTime;
+}
+
+void Snake::CheckTimeChange()
+{
+	int currentTime = GetLastHighTime();
+
+	if (duration > currentTime)
+	{
+		file.open("Time.txt");
+		file << duration;
+		file.close();
+	}
+}

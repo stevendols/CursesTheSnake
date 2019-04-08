@@ -42,7 +42,7 @@ void StateMachine::SetUpMenu(WINDOW * menu)
 	//args(window name, y, x, text)
 	mvwprintw(menu, 7, 53, "P => Play!");
 	mvwprintw(menu, 9, 48, "H => View High Score!");
-	mvwprintw(menu, 11, 49, "T => View Best Time!");
+	mvwprintw(menu, 11, 50, "R => Reset Scores!");
 	mvwprintw(menu, 13, 53, "Q => Quit :(");
 	mvwprintw(menu, 18, 50, "Select An Option! ");
 

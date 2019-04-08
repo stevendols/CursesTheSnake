@@ -5,6 +5,8 @@
 #include<iostream>
 #include"Windows.h"
 #include <ctime>
+#include <fstream>
+#include <sstream>
 //#include<conio.h>
 using namespace std;
 
@@ -30,11 +32,17 @@ public:
 	void Move();
 	void Start();
 	void SetFruit();
+	void CheckScoreChange();
+	void CheckTimeChange();
+
 
 	void UpdateHighScore(int scoreIn, int timeIn);
 
 	int getHighScore();
 	int getHighDuration();
+	int GetLastHighScore();
+	int GetLastHighTime();
+
 
 private:
 	int speed;
@@ -46,4 +54,5 @@ private:
 	pair<int, int> fruit;
 	int score, highScore;
 	int duration, highDuration;
+	fstream file;
 };
