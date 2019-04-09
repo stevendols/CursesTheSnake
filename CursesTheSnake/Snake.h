@@ -4,9 +4,11 @@
 #include<iterator>
 #include<iostream>
 #include"Windows.h"
+#include "ScoreHold.h"
 #include <ctime>
 #include <fstream>
 #include <sstream>
+#include <vector>
 //#include<conio.h>
 using namespace std;
 
@@ -24,7 +26,7 @@ public:
 
 	std::clock_t start;
 
-	Snake(WINDOW * p, WINDOW * h);
+	Snake(WINDOW * p, WINDOW * h, ScoreHold * hist);
 	
 	list<pair<int, int>> GetSnake();
 	void AddBody(int y, int x);
@@ -55,4 +57,5 @@ private:
 	int score, highScore;
 	int duration, highDuration;
 	fstream file;
+	ScoreHold * scoreHist;
 };

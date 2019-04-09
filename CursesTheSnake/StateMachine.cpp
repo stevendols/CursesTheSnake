@@ -51,6 +51,7 @@ void StateMachine::SetUpMenu(WINDOW * menu)
 
 	//turn on cursor and allow text to be echoed
 	curs_set(true);
+	//cbreak();
 	echo();
 
 	//refresh so changes appear

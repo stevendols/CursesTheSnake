@@ -2,6 +2,7 @@
 #include "CursesManager.h"
 #include "StateMachine.h"
 #include "Snake.h"
+#include "ScoreHold.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -77,7 +78,8 @@ int main()
 	//int y, x;
 	bool cont = true;
 
-	Snake * snakePtr = NULL;
+	//create an object that holds score info
+	ScoreHold scores;
 
 	while (cont)
 	{
@@ -92,9 +94,9 @@ int main()
 			{
 				sm.updateState(sm.PLAY);
 				
-				delwin(menu);
+				//delwin(menu);
 
-				Snake stemp(thisplay, scoreside);
+				Snake stemp(thisplay, scoreside, &scores);
 
 				wborder(thisplay, '|', '|', '-', '-', '+', '+', '+', '+');
 
@@ -110,6 +112,8 @@ int main()
 			case (int)'h': 
 			{
 				sm.updateState(sm.HIGHSCORE);
+				//delwin(menu);
+
 
 				//get the high score
 				file.open("Score.txt");
@@ -124,7 +128,6 @@ int main()
 				file.close();
 
 				int winsize = (int)COLS * .5;
-				delwin(menu);
 
 				WINDOW * score = newwin(0, winsize, 0, 0);
 				WINDOW * time = newwin(0, COLS-winsize, 0, winsize);
@@ -138,12 +141,33 @@ int main()
 				wattron(score, A_UNDERLINE);
 				mvwprintw(score, 5, 25, "High Score");
 				wattroff(score, A_UNDERLINE);
-				mvwprintw(score, 20, 30, to_string(highScore).c_str());
+				int height = 8;
+				if (scores.GetHighScores().size() == 0)
+				{
+					mvwprintw(score, 20, 26, "No Scores");
+				}
+				for (int j = 0; j < scores.GetHighScores().size(); j++)
+				{
+					mvwprintw(score, height, 30, to_string(scores.GetHighScores()[j]).c_str());
+					height += 3;
+				}
+
+				//mvwprintw(score, 20, 30, to_string(highScore).c_str());
 				
 				wattron(time, A_UNDERLINE);
 				mvwprintw(time, 5, 25, "Best Time");
 				wattroff(time, A_UNDERLINE);
-				mvwprintw(time, 20, 30, to_string(highTime).c_str());
+				height = 8;
+				if (scores.GetHighTimes().size() == 0)
+				{
+					mvwprintw(time, 20, 26, "No Times");
+				}
+				for (int j = 0; j < scores.GetHighTimes().size(); j++)
+				{
+					string timescore = to_string(scores.GetHighTimes()[j]);
+					mvwprintw(time, height, 30-timescore.size()/2, timescore.c_str());
+					height += 3;
+				}
 
 				wrefresh(score);
 				wrefresh(time);
@@ -166,15 +190,24 @@ int main()
 			case (int) 'R':
 			case (int) 'r':
 			{
+				/*
 				//reset score
 				file.open("Score.txt");
-				file << 0;
+				file << 4;
 				file.close();
 
 				//reset time
 				file.open("Time.txt");
 				file << 0;
 				file.close();
+				*/
+
+				scores.ResetAll();
+
+				wmove(menu, 18, 40);
+				wclrtobot(menu);
+				mvwprintw(menu, 18, 45, "Cleared, Select a New Option! ");
+				wrefresh(menu);
 
 				break;
 			}
@@ -206,6 +239,8 @@ int main()
 		key = 0;
 	}
 	
+	//write score to files
+	scores.WriteAll();
 	
 	//end program
 	endwin();

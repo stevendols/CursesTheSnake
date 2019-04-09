@@ -7,7 +7,7 @@
 # define APPLECOL 3
 # define BACKCOL 4
 
-Snake::Snake(WINDOW * p, WINDOW * scoreside)
+Snake::Snake(WINDOW * p, WINDOW * scoreside, ScoreHold * hist)
 {
 	play = p;
 	swin = scoreside;
@@ -28,7 +28,7 @@ Snake::Snake(WINDOW * p, WINDOW * scoreside)
 		init_pair(BACKCOL, COLOR_BLUE, COLOR_WHITE);
 		wbkgd(play, COLOR_PAIR(BACKCOL));
 	}
-
+	scoreHist = hist;
 }
 
 //return a vector of y,x positions for the snake's body
@@ -75,7 +75,7 @@ void Snake::Move()
 	else
 	{
 		score++;
-		CheckScoreChange();
+		//CheckScoreChange();
 		/*const char * stemp = to_string(score).c_str();
 		mvwprintw(play, 30, 30, stemp);*/
 		//wrefresh(play);
@@ -119,7 +119,7 @@ void Snake::Move()
 	duration = (std::clock() - start) / CLOCKS_PER_SEC;
 	time += to_string(duration);
 
-	CheckTimeChange();
+	//CheckTimeChange();
 	
 	mvwaddstr(swin, 3, 3, ko.c_str());
 	mvwaddstr(swin, 9, 3, time.c_str());
@@ -208,6 +208,47 @@ void Snake::Start()
 			Sleep(speed);
 
 	} while (key != 2 && currentDir != STOP);
+
+	vector<int> shist = scoreHist->GetHighScores();
+
+	//string getname = "Please write a 5 character name: ";
+
+	//add to high score if neccessary
+	if (shist.size() < 5 || score > shist[4])
+	{
+		scoreHist->AddHighScore(score);
+	}
+
+	//
+		/*wclear(play);
+		wattron(play, A_UNDERLINE);
+		string winmessage = "CONGRATULATIONS, YOU HAVE SET A HIGH SCORE!"; 
+		mvwprintw(play, (int)LINES*.75, COLS / 2 - winmessage.size() / 2, winmessage.c_str());
+		mvwprintw(play, (int)LINES*.25, COLS / 2 - getname.size() / 2, getname.c_str());
+		echo();
+		nodelay(play, true);
+		nocbreak();
+		string inname;
+		do
+		{
+			int xpos, ypos;
+			getyx(play, ypos, xpos);
+			for (int j = 1; j <= inname.size()+1; j++)
+			{
+				mvwaddch(play, ypos, xpos - j, '_');
+			}
+			inname = wgetch(play);
+		} while (inname.size() > 5);
+	}*/
+
+
+	//add to high times if neccessary
+	vector<int> thist = scoreHist->GetHighTimes();
+	if (thist.size() < 5 || duration > thist[4])
+	{
+		scoreHist->AddHighTime(duration);
+	}
+
 
 	wclear(play);
 	//wrefresh(play);

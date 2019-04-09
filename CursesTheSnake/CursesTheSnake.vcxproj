@@ -143,12 +143,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CursesManager.cpp" />
+    <ClCompile Include="ScoreHold.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CursesManager.h" />
+    <ClInclude Include="ScoreHold.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="StateMachine.h" />
   </ItemGroup>
